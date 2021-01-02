@@ -7,10 +7,8 @@ use App\Services\CalculationTestResult\Abstractions\CalculateAbstractClass;
 
 class Percent extends CalculateAbstractClass
 {
-    /**
-     * @inheritDoc
-     */
-    protected function calculationResults($correctAnswers, $answers)
+
+    public function calculationResults($correctAnswers, $answers)
     {
         $result = 0;
         $countCorrectAnswers = count($correctAnswers) - 1;

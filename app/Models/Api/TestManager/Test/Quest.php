@@ -16,4 +16,9 @@ class Quest extends Model
         'evaluation',
         'test_id'
     ];
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'quest_id', 'id');
+    }
 }

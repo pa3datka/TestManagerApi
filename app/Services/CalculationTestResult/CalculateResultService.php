@@ -4,36 +4,35 @@
 namespace App\Services\CalculationTestResult;
 
 
-use App\Services\CalculationTestResult\Options\Ball;
+
+use App\Services\CalculationTestResult\Options\Score;
 use App\Services\CalculationTestResult\Options\Percent;
-use Illuminate\Support\Facades\Auth;
 
 class CalculateResultService
 {
     private $arrAnswers;
     private $typeCalculation;
-    private $test;
-    private $resultRepository;
+    private $questions;
     private static $availableEngine = [
-        'BallCalculation' => Ball::class,
-        'PercentCalculation' =>Percent::class
+        'Score' => Score::class,
+        'Percent' =>Percent::class
     ];
     private static $variantResults = [
-        'Ball' => 'балла(ов)',
+        'Score' => 'балла(ов)',
         'Percent' => '%'
     ];
 
     /**
      * CalculationService constructor.
-     * @param $arrAnswers
-     * @param $testId
+     *
+     * @param $test
+     * @param $answers
      */
-    public function __construct($arrAnswers, $testId)
+    public function __construct($test, $answers)
     {
-        $this->arrAnswers = $arrAnswers;
-        $this->resultRepository = new ResultRepository();
-        $this->test = (new TestRepository())->loadAllRelationships($testId);
-        $this->typeCalculation = $this->test->calculation['slug'];
+        $this->arrAnswers = $answers;
+        $this->typeCalculation = $test->calculation['slug'];
+        $this->questions = $test->quests;
     }
 
     /**
@@ -41,12 +40,9 @@ class CalculateResultService
      */
     public function resultTest()
     {
-        $arrCorrectAnswers = $this->getCorrectResults($this->test->quests);
-        $result = $this->calculationEngine($this->typeCalculation)
-            ->calculationResults($arrCorrectAnswers,$this->arrAnswers);
-        $userId = Auth::user() ? Auth::id() : 1;
-        $this->resultRepository->setResult($result, $userId, $this->test['id'], $this->test['calculation_id']);
-        return $result. ' ' .self::$variantResults[$this->typeCalculation];
+        $correctAnswers = $this->getCorrectResults();
+        $result = $this->calculationEngine($this->typeCalculation);
+        return $result->calculationResults($correctAnswers,$this->arrAnswers) . ' ' . self::$variantResults[$this->typeCalculation];
     }
 
     /**
@@ -55,23 +51,23 @@ class CalculateResultService
      */
     private function calculationEngine($class)
     {
-        return new self::$availableEngine[$class.'Calculation'];
+        return new self::$availableEngine[$class];
     }
 
     /**
      * @param $quests
      * @return array
      */
-    private function getCorrectResults($quests)
+    private function getCorrectResults(): array
     {
-        $countQuests = count($quests) -1;
+        $countQuestions = count($this->questions) -1;
         $correctAnswers = [];
-        for ($i = 0; $i <= $countQuests; $i++) {
-            if ($this->typeCalculation === 'Ball') $correctAnswers[$i]['ball'] = $quests[$i]['ball'];
-            $answers = $quests[$i]['answers'];
-            foreach ($answers as $answer) {
-                if ($answer->status == 1) {
-                    $correctAnswers[$i][] = $answer->id;
+        for ($i = 0; $i<= $countQuestions; $i++) {
+            $countAnswers = count($this->questions[$i]['answers']) - 1;
+            for ($r = 0; $r <= $countAnswers; $r++) {
+                if ($this->questions[$i]['answers'][$r]['status'] == 1) {
+                    $correctAnswers[$i][] = $this->questions[$i]['answers'][$r]['id'];
+                    $correctAnswers[$i]['evaluation'] = $this->questions[$i]['evaluation'];
                 }
             }
         }

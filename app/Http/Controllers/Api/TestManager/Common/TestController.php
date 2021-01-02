@@ -4,12 +4,18 @@ namespace App\Http\Controllers\Api\TestManager\Common;
 
 use App\Http\Controllers\Api\TestManager\BaseController;
 use Illuminate\Http\JsonResponse;
-use App\Services\Repositories\Api\TestManager\Common\TestRepository;
+use App\Repositories\Api\TestManager\Common\TestRepository;
 
 class TestController extends BaseController
 {
+    /**
+     * @var TestRepository
+     */
     private TestRepository $testRepository;
 
+    /**
+     * TestController constructor.
+     */
     public function __construct()
     {
         $this->testRepository = new TestRepository();
@@ -22,7 +28,7 @@ class TestController extends BaseController
      */
     public function index(): JsonResponse
     {
-        $tests = $this->testRepository->indexTests();
+        $tests = $this->testRepository->getAllTests();
         return response()->json($tests);
     }
 
@@ -36,6 +42,18 @@ class TestController extends BaseController
     {
         $test = $this->testRepository->showTest($id);
         return response()->json($test);
+    }
+
+    /**
+     *  Show tests that belong to a category
+     *
+     * @param int $categoryId
+     * @return JsonResponse
+     */
+    public function getAllTestsCategory(int $categoryId): JsonResponse
+    {
+        $category = $this->testRepository->showTestsBelongCategory($categoryId);
+        return response()->json($category);
     }
 
 }

@@ -13,9 +13,9 @@ abstract class CalculateAbstractClass
      */
     protected function comparingArrays($correctAnswer, $answer)
     {
+        $flag = false;
         $countCorrectAnswers = count($correctAnswer) -1;
         $countAnswers = count($answer) -1;
-
         for ($i = 0; $i <= $countCorrectAnswers; $i++) {
             for ($r = 0; $r <= $countAnswers; $r++) {
                 if (isset($correctAnswer[$i]) && isset($answer[$r]) && $correctAnswer[$i] == $answer[$r]) {
@@ -25,9 +25,9 @@ abstract class CalculateAbstractClass
             }
         }
         if (empty($correctAnswer) && empty($answer)) {
-            return true;
+            $flag = true;
         }
-        return false;
+        return $flag;
     }
 
     /**
