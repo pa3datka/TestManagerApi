@@ -20,6 +20,7 @@ class TestRepository extends CoreRepository
     public function getAllTests()
     {
         $columns = [
+            'id',
             'head',
             'image',
             'user_id',
@@ -45,6 +46,7 @@ class TestRepository extends CoreRepository
     public function showTest(int $id)
     {
         $columns = [
+            'id',
             'head',
             'description',
             'time',
@@ -52,7 +54,7 @@ class TestRepository extends CoreRepository
             'image',
             'user_id',
             'category_id',
-            'created_at as date_time'
+            'created_at as date'
         ];
 
         return $this->startConditions()
@@ -70,6 +72,7 @@ class TestRepository extends CoreRepository
     public function showTestsBelongCategory($categoryId)
     {
         $columns = [
+            'id',
             'head',
             'description',
             'time',
