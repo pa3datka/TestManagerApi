@@ -17,12 +17,12 @@ class TypeCalculationTableSeeder extends Seeder
         $calculation = [
           [
               'type' => 'Баллы',
-              'slug' => 'score',
+              'slug' => 'Score',
               'description' => 'Оценка результата в баллах'
           ],
             [
                 'type' => 'Проценты',
-                'slug' => 'percent',
+                'slug' => 'Percent',
                 'description' => 'Оценка результата в процентах'
             ]
         ];
