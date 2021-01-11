@@ -107,7 +107,7 @@ class TestRepository extends CoreRepository
             ->where('id', $testId)
             ->with([
                 'calculation:id,slug',
-                'quests.answers:id,quest_id,status'
+                'questions.answers:id,quest_id,status'
             ])
             ->first();
     }

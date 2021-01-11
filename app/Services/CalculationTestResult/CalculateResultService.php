@@ -32,13 +32,13 @@ class CalculateResultService
     {
         $this->arrAnswers = $answers;
         $this->typeCalculation = $test->calculation['slug'];
-        $this->questions = $test->quests;
+        $this->questions = $test->questions;
     }
 
     /**
      * @return mixed
      */
-    public function resultTest()
+    public function resultTest(): string
     {
         $correctAnswers = $this->getCorrectResults();
         $result = $this->calculationEngine($this->typeCalculation);

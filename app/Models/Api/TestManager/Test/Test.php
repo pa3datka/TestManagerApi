@@ -19,7 +19,9 @@ class Test extends Model
         'time',
         'attempts',
         'image',
-        'user_id'
+        'user_id',
+        'created_at',
+        'updated_at'
     ];
 
     public function users(): BelongsTo
@@ -42,7 +44,7 @@ class Test extends Model
         return $this->belongsTo(TypeCalculation::class, 'calculation_id', 'id');
     }
 
-    public function quests(): HasMany
+    public function questions(): HasMany
     {
         return $this->hasMany(Quest::class, 'test_id', 'id');
     }

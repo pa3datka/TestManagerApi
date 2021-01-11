@@ -1,16 +1,14 @@
 <?php
 
 
-namespace App\Repositories\Api\TestManager\Common;
+namespace App\Repositories\Api\TestManager\UserRepositories;
 
 
-
-use App\Models\Api\TestManager\Test\Category as Model;
 use App\Repositories\CoreRepository;
+use App\Models\Api\TestManager\Test\TypeCalculation as Model;
 use Illuminate\Support\Collection;
 
-
-class CategoryRepository extends CoreRepository
+class TypeCalculationRepository extends CoreRepository
 {
 
     protected function getModelClass(): string
@@ -18,7 +16,7 @@ class CategoryRepository extends CoreRepository
         return Model::class;
     }
 
-    public function getListCategories(): Collection
+    public function getAllTypesCalculation(): Collection
     {
         return $this->startConditions()
             ->all()

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     protected $table = 'answers';
-    public $timestamps = 'false';
+    public $timestamps = false;
     protected $fillable = [
         'id',
         'answer',
