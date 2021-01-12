@@ -7,7 +7,7 @@ use Intervention\Image\Facades\Image;
 
 class ImageIntervention extends Image
 {
-    public function saveImage($image, $height = 400, $width = 500)
+    public function saveImage($image, $height = 400, $width = 500): string
     {
         if (strlen($image) < 1) {
             return '';
